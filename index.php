@@ -10,7 +10,9 @@ foreach($example_persons_array as $fullname) {
     $fullName[] = $fullname['fullname'];
 }
 //print_r($fullName);
-print_r($fullName[0]);
+//print_r($fullName[0]);
+$surnameNamePatronomyc = explode(" ", $fullName[0]); // разбиваем строку ФИО на числовой массив
+print_r($surnameNamePatronomyc);
 
 // принимает строку ФИО и возвращает массив из трех элементов Фамилия, Ися, Отчество
 function getPartsFromFullname() {}
