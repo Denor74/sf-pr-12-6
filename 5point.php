@@ -33,7 +33,7 @@ function getPartsFromFullname($nameString)
 // Передаем строку с ФИО из массива $fullNameString в функцию getPartsFromFullname
 $associativArrFullname = getPartsFromFullname($fullNameString[5]);
 // выводим ассоциативный массив из функции getPartsFromFullname
-print_r($associativArrFullname);
+//print_r($associativArrFullname);
 
 
 // принимает три строки "Фамилия" "Имя" "Отчество" и склеивает в одну
@@ -43,4 +43,14 @@ function getFullnameFromParts($surname, $name, $patronomyc)
     return $stringFullname;
 }
 
-echo getFullnameFromParts($surnameNamePatronomyc[0], $surnameNamePatronomyc[1], $surnameNamePatronomyc[2]);
+//echo getFullnameFromParts($surnameNamePatronomyc[0], $surnameNamePatronomyc[1], $surnameNamePatronomyc[2]);
+
+function getShortName()
+{
+    global $associativArrFullname;
+
+    print_r($associativArrFullname);
+
+}
+
+getShortName();
