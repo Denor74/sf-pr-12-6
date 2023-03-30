@@ -6,8 +6,16 @@ require 'data-arr.php';
 // создаем массив только со значением  fullname из массива $example_persons_array
 require 'namestring.php';
 
-echo "\n количество элементов в массиве \$example_persons_array:\n";
-echo "\n" . count($example_persons_array) . "\n";
+// ------------------------------------------------------------------------
+//echo "\n количество элементов в массиве \$example_persons_array:\n";
+// ******* Функция подсчета элементов в массиве ***********
+function arrCount($arr) 
+{
+$arrCount = count($arr);
+return $arrCount;
+}
+// echo "\n" . $arrCount . "\n";
+// ------------------------------------------------------------------------
 
 // Создаем массив для создание ключей surname name patronomyc
 // $initials = ['surname', 'name', 'patronomyc',];
@@ -17,7 +25,8 @@ echo "\n" . count($example_persons_array) . "\n";
 $surnameNamePatronomyc = explode(" ", $fullNameString[3]); // разбиваем строку ФИО на числовой массив
 //print_r($surnameNamePatronomyc);
 
-// принимает строку ФИО и возвращает массив из трех элементов Фамилия, Имя, Отчество
+// ***********************************************************************************************
+//  *****  принимает строку ФИО и возвращает массив из трех элементов Фамилия, Имя, Отчество  ***** 
 function getPartsFromFullname($nameString)
 { // Создаем массив для создание ключей surname name patronomyc
     $initials = ['surname', 'name', 'patronomyc',];
@@ -38,7 +47,8 @@ $associativArrFullname = getPartsFromFullname($fullNameString[5]);
 // print_r($associativArrFullname);
 // ------------------------------------------------------------------------
 
-// принимает три строки "Фамилия" "Имя" "Отчество" и склеивает в одну
+// ***********************************************************************************************
+//  *****  принимает три строки "Фамилия" "Имя" "Отчество" и склеивает в одну  ***** 
 function getFullnameFromParts($surname, $name, $patronomyc)
 {
     $stringFullname = $surname . " " . $name . " " . $patronomyc;
@@ -50,7 +60,8 @@ function getFullnameFromParts($surname, $name, $patronomyc)
 // echo getFullnameFromParts($surnameNamePatronomyc[0], $surnameNamePatronomyc[1], $surnameNamePatronomyc[2]);
 //--------------------------------------------------------------
 
-// Функция возвращающая Имя и первую букву фамилии (Сокращенное ФИО)
+// ***********************************************************************************************
+//  ***** Функция возвращающая Имя и первую букву фамилии (Сокращенное ФИО)  ***** 
 function getShortName($nameString)
 {
     // Получаем ассоциативный массив сформированный функцией getPartsFromFullname
@@ -70,7 +81,8 @@ function getShortName($nameString)
 // echo getShortName($fullNameString[4]);
 // ------------------------------------------------------------------------
 
-// Функция определения пола по ФИО
+// ***********************************************************************************************
+// ***** Функция определения пола по ФИО ******
 function getGenderFromName($nameString)
 {
     // Получаем ассоциативный массив сформированный функцией getPartsFromFullname
@@ -88,30 +100,41 @@ function getGenderFromName($nameString)
     if (mb_substr($arrNameString['surname'], -1) == 'в') {
         ++$gender;
     }
-// Проверка на женские признаки
-if (mb_substr($arrNameString['patronomyc'], -3) == 'вна') {
-    --$gender;
-}
-if (mb_substr($arrNameString['name'], -1) == 'а') {
-    --$gender;
-}
-if (mb_substr($arrNameString['surname'], -1) == 'ва') {
-    --$gender;
-}
-// echo $gender;
-// Выводим значение пола
-switch($gender <=> 0){
-case 1:
-    return 'Мужчина';
-    break;
-case -1:
-    return 'Женщина';
-    break;
-default:
-return 'Пол не определён';
-}
+    // Проверка на женские признаки
+    if (mb_substr($arrNameString['patronomyc'], -3) == 'вна') {
+        --$gender;
+    }
+    if (mb_substr($arrNameString['name'], -1) == 'а') {
+        --$gender;
+    }
+    if (mb_substr($arrNameString['surname'], -1) == 'ва') {
+        --$gender;
+    }
+    // echo $gender;
+    // Выводим значение пола
+    switch ($gender <=> 0) {
+        case 1:
+            return 'Мужчина';
+            break;
+        case -1:
+            return 'Женщина';
+            break;
+        default:
+            return 'Пол не определён';
+    }
 }
 
-echo "\n Вывод функции getGenderFromName:\n";
-echo getGenderFromName($fullNameString[10]);
+// ------------------------------------------------------------------------
+// echo "\n Вывод функции getGenderFromName:\n";
+// echo getGenderFromName($fullNameString[10]);
+// ------------------------------------------------------------------------
 
+// ***********************************************************************************************
+// ***** Функция определения определения полового состава аудитории - getGenderDescription ******
+function getGenderDescription($arrCount)
+{
+    $arrCountInt = arrCount($arrCount);
+    echo "\n" . $arrCountInt . "\n";
+}
+
+echo getGenderFromName($example_persons_array);
