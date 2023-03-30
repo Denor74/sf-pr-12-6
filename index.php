@@ -8,13 +8,16 @@ require 'namestring.php';
 
 // ------------------------------------------------------------------------
 //echo "\n количество элементов в массиве \$example_persons_array:\n";
+
+// ***********************************************************************************************
 // ******* Функция подсчета элементов в массиве ***********
-function arrCount($arr) 
+function arrCount($arr)
 {
-$arrCount = count($arr);
-return $arrCount;
+    $arrCount = count($arr);
+    return $arrCount;
 }
-// echo "\n" . $arrCount . "\n";
+// ------------------------------------------------------------------------
+// echo "\n" . arrCount($example_persons_array) . "\n";
 // ------------------------------------------------------------------------
 
 // Создаем массив для создание ключей surname name patronomyc
@@ -43,8 +46,8 @@ $associativArrFullname = getPartsFromFullname($fullNameString[5]);
 // выводим ассоциативный массив из функции getPartsFromFullname
 
 // ------------------------------------------------------------------------
-// print_r("Вывод функции getPartsFromFullname \n");
-// print_r($associativArrFullname);
+print_r("\n\n Вывод функции getPartsFromFullname \n");
+print_r($associativArrFullname);
 // ------------------------------------------------------------------------
 
 // ***********************************************************************************************
@@ -56,8 +59,8 @@ function getFullnameFromParts($surname, $name, $patronomyc)
 }
 
 //--------------------------------------------------------------
-// echo "\n Вывод функции getFullnameFromParts:\n";
-// echo getFullnameFromParts($surnameNamePatronomyc[0], $surnameNamePatronomyc[1], $surnameNamePatronomyc[2]);
+echo "\n\n Вывод функции getFullnameFromParts:\n";
+echo getFullnameFromParts($surnameNamePatronomyc[0], $surnameNamePatronomyc[1], $surnameNamePatronomyc[2]);
 //--------------------------------------------------------------
 
 // ***********************************************************************************************
@@ -77,8 +80,8 @@ function getShortName($nameString)
 }
 
 // ------------------------------------------------------------------------
-// echo "\n Вывод функции getShortName:\n";
-// echo getShortName($fullNameString[4]);
+echo "\n\n Вывод функции getShortName:\n";
+echo getShortName($fullNameString[4]);
 // ------------------------------------------------------------------------
 
 // ***********************************************************************************************
@@ -125,16 +128,55 @@ function getGenderFromName($nameString)
 }
 
 // ------------------------------------------------------------------------
-// echo "\n Вывод функции getGenderFromName:\n";
-// echo getGenderFromName($fullNameString[10]);
+echo "\n\n Вывод функции getGenderFromName:\n";
+echo getGenderFromName($fullNameString[9]);
 // ------------------------------------------------------------------------
 
 // ***********************************************************************************************
-// ***** Функция определения определения полового состава аудитории - getGenderDescription ******
-function getGenderDescription($arrCount)
+// ***** Функция определения полового состава аудитории - getGenderDescription ******
+function getGenderDescription($arr)
 {
-    $arrCountInt = arrCount($arrCount);
-    echo "\n" . $arrCountInt . "\n";
+    $male = 0;
+    $female = 0;
+    $nogender = 0;
+
+    // Считаем количесвто мужчин, женщин и неопределенных полов
+    for ($i = 0; $i < count($arr); $i++) {
+        if (getGenderFromName($arr[$i]) == 'Мужчина') {
+            ++$male;
+        }
+        if (getGenderFromName($arr[$i]) == 'Женщина') {
+            ++$female;
+        }
+        if (getGenderFromName($arr[$i]) == 'Пол не определён') {
+            ++$nogender;
+        }
+    }
+
+    // Считаем процентное соотношение по полам
+    $roundMale = round($male / count($arr) * 100, 1);
+    $roundFemale = round($female / count($arr) * 100, 1);
+    $roundNogender = round($nogender / count($arr) * 100, 1);
+
+    // формируем вывод результатов с помощью heredoc-синтаксиса
+    $stats = <<< GENDERSTATS
+  Гендерный состав аудитории:
+  ---------------------------
+  Мужчины - $roundMale %
+  Женщины - $roundFemale %
+  Не удалось определить - $roundNogender %
+  GENDERSTATS;
+    return $stats;
 }
 
-echo getGenderFromName($example_persons_array);
+// ------------------------------------------------------------------------
+echo "\n\n Вывод функции getGenderDescription:\n";
+echo getGenderDescription($fullNameString);
+// ------------------------------------------------------------------------
+
+// function temp($temp)
+// {
+//     print_r($temp);   
+// }
+
+//temp($fullNameString);
