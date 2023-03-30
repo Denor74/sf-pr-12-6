@@ -2,16 +2,12 @@
 // data-arr.php хранит массив $example_persons_array
 require 'data-arr.php';
 //print_r($example_persons_array);
-// Создаем массив для создание ключей surname name patronomyc
+
+// создаем массив только со значением  fullname из массива $example_persons_array
 require 'namestring.php';
+
+// Создаем массив для создание ключей surname name patronomyc
 // $initials = ['surname', 'name', 'patronomyc',];
-// // создаем массив только со значением  fullname из массива $example_persons_array
-// $fullNameString = [];
-// foreach ($example_persons_array as $fullname) {
-//     $fullNameString[] = $fullname['fullname'];
-// }
-// //print_r($fullNameString);
-// //print_r($fullNameString[0]);
 
 // разбиваем строку ФИО на числовой массив 
 // --- ПЕРЕМЕННАЯ $fullNameString из ФАЙЛА namestring.php ---
@@ -33,7 +29,8 @@ function getPartsFromFullname($nameString)
 // Передаем строку с ФИО из массива $fullNameString в функцию getPartsFromFullname
 $associativArrFullname = getPartsFromFullname($fullNameString[5]);
 // выводим ассоциативный массив из функции getPartsFromFullname
-//print_r($associativArrFullname);
+print_r ("Вывод функции getPartsFromFullname \n");
+print_r($associativArrFullname);
 
 
 // принимает три строки "Фамилия" "Имя" "Отчество" и склеивает в одну
@@ -42,15 +39,22 @@ function getFullnameFromParts($surname, $name, $patronomyc)
     $stringFullname = $surname . " " . $name . " " . $patronomyc;
     return $stringFullname;
 }
+echo "\n Вывод функции getFullnameFromParts:\n";
+echo getFullnameFromParts($surnameNamePatronomyc[0], $surnameNamePatronomyc[1], $surnameNamePatronomyc[2]);
 
-//echo getFullnameFromParts($surnameNamePatronomyc[0], $surnameNamePatronomyc[1], $surnameNamePatronomyc[2]);
-
-function getShortName()
+// Функция возвращающая Имя и первую букву фамилии (Скокращенное ФИО)
+function getShortName($nameString)
 {
-    global $associativArrFullname;
-
-    print_r($associativArrFullname);
-
+    // Получаем ассоциативный массив сформированный функцией getPartsFromFullname
+    $arrNameString = getPartsFromFullname($nameString);
+    //print_r($arrNameString);
+    // Имя в отдельную переменную
+    $name = $arrNameString['name'];
+    // Получаем первую букву фамилии
+    $surname = mb_substr($arrNameString['surname'], 0, 1);
+    $shortName =  $name . " " . $surname . ".";
+    //print_r($shortName);
+    return $shortName;
 }
-
-getShortName();
+echo "\n Вывод функции getShortName:\n";
+echo getShortName($fullNameString[4]);
