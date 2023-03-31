@@ -42,12 +42,12 @@ function getPartsFromFullname($nameString)
 }
 
 // Передаем строку с ФИО из массива $fullNameString в функцию getPartsFromFullname
-$associativArrFullname = getPartsFromFullname($fullNameString[0]);
+$associativArrFullname = getPartsFromFullname($fullNameString[1]);
 // выводим ассоциативный массив из функции getPartsFromFullname
 
 // ------------------------------------------------------------------------
-//  print_r("\n\n Вывод функции getPartsFromFullname \n");
-//  print_r($associativArrFullname);
+print_r("\n\n Вывод функции getPartsFromFullname \n");
+print_r($associativArrFullname);
 // ------------------------------------------------------------------------
 
 
@@ -61,8 +61,8 @@ function getFullnameFromParts($surname, $name, $patronomyc)
 }
 
 //--------------------------------------------------------------
-// echo "\n\n Вывод функции getFullnameFromParts:\n";
-// echo getFullnameFromParts($surnameNamePatronomyc[0], $surnameNamePatronomyc[1], $surnameNamePatronomyc[2]);
+echo "\n\n Вывод функции getFullnameFromParts:\n";
+echo getFullnameFromParts($surnameNamePatronomyc[0], $surnameNamePatronomyc[1], $surnameNamePatronomyc[2]);
 //--------------------------------------------------------------
 
 // ***********************************************************************************************
@@ -82,8 +82,8 @@ function getShortName($nameString)
 }
 
 // ------------------------------------------------------------------------
-// echo "\n\n Вывод функции getShortName:\n";
-// echo getShortName($fullNameString[4]);
+echo "\n\n Вывод функции getShortName:\n";
+echo getShortName($fullNameString[4]);
 // ------------------------------------------------------------------------
 
 // ***********************************************************************************************
@@ -116,22 +116,25 @@ function getGenderFromName($nameString)
         --$gender;
     }
     // echo $gender;
-    // Выводим значение пола
+    // Выводим значение пола для проверки
     switch ($gender <=> 0) {
         case 1:
-            return 'Мужчина';
+            // echo 'Мужчина';
+            return 1;
             break;
         case -1:
-            return 'Женщина';
+            // echo 'Женщина';
+            return -1;
             break;
         default:
-            return 'Пол не определён';
+            // echo 'Пол не определён';
+            return 0;
     }
 }
 
 // ------------------------------------------------------------------------
-// echo "\n\n Вывод функции getGenderFromName:\n";
-// echo getGenderFromName($fullNameString[9]);
+echo "\n\n Вывод функции getGenderFromName:\n";
+echo getGenderFromName($fullNameString[9]);
 // ------------------------------------------------------------------------
 
 // ***********************************************************************************************
@@ -144,13 +147,13 @@ function getGenderDescription($arr)
 
     // Считаем количесвто мужчин, женщин и неопределенных полов
     for ($i = 0; $i < count($arr); $i++) {
-        if (getGenderFromName($arr[$i]) == 'Мужчина') {
+        if (getGenderFromName($arr[$i]) == 1) {
             ++$male;
         }
-        if (getGenderFromName($arr[$i]) == 'Женщина') {
+        if (getGenderFromName($arr[$i]) == -1) {
             ++$female;
         }
-        if (getGenderFromName($arr[$i]) == 'Пол не определён') {
+        if (getGenderFromName($arr[$i]) == 0) {
             ++$nogender;
         }
     }
@@ -172,8 +175,8 @@ function getGenderDescription($arr)
 }
 
 // ------------------------------------------------------------------------
-// echo "\n\n Вывод функции getGenderDescription:\n";
-// echo getGenderDescription($fullNameString);
+echo "\n\n Вывод функции getGenderDescription:\n";
+echo getGenderDescription($fullNameString);
 // ------------------------------------------------------------------------
 
 // ***********************************************************************************************
@@ -203,11 +206,11 @@ function getPerfectPartner($surname, $name, $patronomyc, $example_persons_array)
 
         // Проверяем пол для randomFullNameArr с помощью функции $getGenderFromName
         $randomFullNameArrGender = getGenderFromName($randomFullNameArr);
-        echo "fullName " . $fullName . "\n";
-        echo $fullNameGender . "\n";
-        echo "randomFullNameArr " . $randomFullNameArr . "\n";
-        echo $randomFullNameArrGender . "\n";
-    } while ($randomFullNameArrGender == $fullNameGender || $randomFullNameArrGender == 'Пол не определён' || $fullNameGender  == 'Пол не определён');
+        // echo "fullName " . $fullName . "\n";
+        // echo $fullNameGender . "\n";
+        // echo "randomFullNameArr " . $randomFullNameArr . "\n";
+        // echo $randomFullNameArrGender . "\n";
+    } while ($randomFullNameArrGender == $fullNameGender || $randomFullNameArrGender == 0 || $fullNameGender  == 0);
 
     // Обезличиваем ФИО с помощью функции $getShortName
 
@@ -231,7 +234,4 @@ echo "\n\n Вывод функции getPerfectPartner:\n";
 echo getPerfectPartner('рыков', 'ДЕНИС', 'нИколАевич', $example_persons_array);
 //echo getPerfectPartner($getPartsFromFullname['surname'], $getPartsFromFullname['name'], $getPartsFromFullname['patronomyc'], $example_persons_array);
 
-
-// echo getPerfectPartner('рыков', 'ДЕНИС', 'нИколАевич');
  // ------------------------------------------------------------------------
-
