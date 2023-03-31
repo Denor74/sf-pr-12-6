@@ -42,13 +42,15 @@ function getPartsFromFullname($nameString)
 }
 
 // Передаем строку с ФИО из массива $fullNameString в функцию getPartsFromFullname
-$associativArrFullname = getPartsFromFullname($fullNameString[5]);
+$associativArrFullname = getPartsFromFullname($fullNameString[0]);
 // выводим ассоциативный массив из функции getPartsFromFullname
 
 // ------------------------------------------------------------------------
-print_r("\n\n Вывод функции getPartsFromFullname \n");
-print_r($associativArrFullname);
+//  print_r("\n\n Вывод функции getPartsFromFullname \n");
+//  print_r($associativArrFullname);
 // ------------------------------------------------------------------------
+
+
 
 // ***********************************************************************************************
 //  *****  принимает три строки "Фамилия" "Имя" "Отчество" и склеивает в одну  ***** 
@@ -59,8 +61,8 @@ function getFullnameFromParts($surname, $name, $patronomyc)
 }
 
 //--------------------------------------------------------------
-echo "\n\n Вывод функции getFullnameFromParts:\n";
-echo getFullnameFromParts($surnameNamePatronomyc[0], $surnameNamePatronomyc[1], $surnameNamePatronomyc[2]);
+// echo "\n\n Вывод функции getFullnameFromParts:\n";
+// echo getFullnameFromParts($surnameNamePatronomyc[0], $surnameNamePatronomyc[1], $surnameNamePatronomyc[2]);
 //--------------------------------------------------------------
 
 // ***********************************************************************************************
@@ -80,8 +82,8 @@ function getShortName($nameString)
 }
 
 // ------------------------------------------------------------------------
-echo "\n\n Вывод функции getShortName:\n";
-echo getShortName($fullNameString[4]);
+// echo "\n\n Вывод функции getShortName:\n";
+// echo getShortName($fullNameString[4]);
 // ------------------------------------------------------------------------
 
 // ***********************************************************************************************
@@ -128,8 +130,8 @@ function getGenderFromName($nameString)
 }
 
 // ------------------------------------------------------------------------
-echo "\n\n Вывод функции getGenderFromName:\n";
-echo getGenderFromName($fullNameString[9]);
+// echo "\n\n Вывод функции getGenderFromName:\n";
+// echo getGenderFromName($fullNameString[9]);
 // ------------------------------------------------------------------------
 
 // ***********************************************************************************************
@@ -170,13 +172,66 @@ function getGenderDescription($arr)
 }
 
 // ------------------------------------------------------------------------
-echo "\n\n Вывод функции getGenderDescription:\n";
-echo getGenderDescription($fullNameString);
+// echo "\n\n Вывод функции getGenderDescription:\n";
+// echo getGenderDescription($fullNameString);
 // ------------------------------------------------------------------------
 
-// function temp($temp)
-// {
-//     print_r($temp);   
-// }
+// ***********************************************************************************************
+//  *****  Рандомная запись из массива $fullNameString ***** 
+$randomFullNameString = (getPartsFromFullname($fullNameString[array_rand($fullNameString)]));
+// print_r($ranndomFullNameString);
 
-//temp($fullNameString);
+// ***********************************************************************************************
+// ***** Функция идеальный подбор пары - getPerfectPartner ******
+
+function getPerfectPartner($surname, $name, $patronomyc, $example_persons_array)
+{
+    // Приводим написание значений ФИО к нормальному регистру - Первая буква ПРОПИСНАЯ остальные строчные
+    $surname = mb_convert_case($surname, MB_CASE_TITLE_SIMPLE);
+    $name = mb_convert_case($name, MB_CASE_TITLE_SIMPLE);
+    $patronomyc = mb_convert_case($patronomyc, MB_CASE_TITLE_SIMPLE);
+
+    // Склеиваем ФИО в одну строку, используя функцию getFullnameFromParts
+    $fullName = getFullnameFromParts($surname, $name, $patronomyc);
+
+    // Проверяем пол для $fullName с помощью функции $getGenderFromName
+    $fullNameGender = getGenderFromName($fullName);
+    do {
+        // 4 Рандомно выбираем ФИО человека из массива $example_persons_array
+        $randomFullNameArr = $example_persons_array[array_rand($example_persons_array)]['fullname'];
+
+
+        // Проверяем пол для randomFullNameArr с помощью функции $getGenderFromName
+        $randomFullNameArrGender = getGenderFromName($randomFullNameArr);
+        echo "fullName " . $fullName . "\n";
+        echo $fullNameGender . "\n";
+        echo "randomFullNameArr " . $randomFullNameArr . "\n";
+        echo $randomFullNameArrGender . "\n";
+    } while ($randomFullNameArrGender == $fullNameGender || $randomFullNameArrGender == 'Пол не определён' || $fullNameGender  == 'Пол не определён');
+
+    // Обезличиваем ФИО с помощью функции $getShortName
+
+    $fullNameShort = getShortName($fullName);
+    $randomFullNameArrShort = getShortName($randomFullNameArr);
+
+    // генерируем рандомное число - процент совпадения пары от 50 до 100
+    $randomMatch = rand(5000, 10000) / 100;
+
+    $pairMaleFemale = <<< PAIRMALEFEMALE
+    Совместимость пары:
+    ---------------------------
+    $fullNameShort + $randomFullNameArrShort =
+    \u{1F49F} Идеально на  $randomMatch %
+    PAIRMALEFEMALE;
+    return $pairMaleFemale;
+}
+
+// ------------------------------------------------------------------------
+echo "\n\n Вывод функции getPerfectPartner:\n";
+echo getPerfectPartner('рыков', 'ДЕНИС', 'нИколАевич', $example_persons_array);
+//echo getPerfectPartner($getPartsFromFullname['surname'], $getPartsFromFullname['name'], $getPartsFromFullname['patronomyc'], $example_persons_array);
+
+
+// echo getPerfectPartner('рыков', 'ДЕНИС', 'нИколАевич');
+ // ------------------------------------------------------------------------
+
